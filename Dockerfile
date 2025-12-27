@@ -4,8 +4,8 @@ FROM node:20-slim AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package.json only (ignoring lockfile to avoid platform issues)
+COPY package.json ./
 
 # Ensure dev dependencies (like Vite) are installed
 ENV NODE_ENV=development
