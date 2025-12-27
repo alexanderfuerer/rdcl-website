@@ -3,6 +3,22 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import { WebsiteData, Service, Project, Insight, MissionContent, AboutContent, Partner } from './types';
 import { INITIAL_DATA, HARDCODED_LOGO_URL } from './constants';
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, getDoc, setDoc, collection, onSnapshot, query, addDoc, getDocs, deleteDoc } from "firebase/firestore";
+
+// --- Firebase Configuration ---
+const firebaseConfig = {
+  apiKey: "AIzaSyAHqAeFGhd7ehaB999vXW-OlVjYZS1ohGs",
+  authDomain: "boxwood-chalice-482510-i3.firebaseapp.com",
+  projectId: "boxwood-chalice-482510-i3",
+  storageBucket: "boxwood-chalice-482510-i3.firebasestorage.app",
+  messagingSenderId: "579494487652",
+  appId: "1:579494487652:web:d131c05f013cedb952a171",
+  measurementId: "G-1XMS7Z5EDJ"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // --- Utility Functions ---
 const fileToBase64 = (file: File): Promise<string> => {
@@ -79,32 +95,51 @@ const FormattedText: React.FC<{ text: string; className?: string }> = ({ text, c
   );
 };
 
-// --- Backend Service Mock ---
+// --- Backend Service (Firestore) ---
 const DataService = {
   async save(translations: Record<string, WebsiteData>): Promise<void> {
     try {
-      const serialized = JSON.stringify(translations);
-      localStorage.setItem('rdcl_translations', serialized);
+      const docRef = doc(db, "rdcl", "translations");
+      await setDoc(docRef, translations);
     } catch (e) {
-      console.error("LocalStorage Save Error:", e);
-      throw new Error("Storage quota exceeded or unavailable.");
+      console.error("Firestore Save Error:", e);
+      throw new Error("Failed to save to database. Check your internet or permissions.");
     }
   },
   async load(): Promise<Record<string, WebsiteData> | null> {
     try {
-      const saved = localStorage.getItem('rdcl_translations');
-      return saved ? JSON.parse(saved) : null;
+      const docRef = doc(db, "rdcl", "translations");
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        //@ts-ignore
+        return docSnap.data() as Record<string, WebsiteData>;
+      }
+      return null;
     } catch (e) {
-      console.error("Failed to load data", e);
+      console.error("Failed to load data from Firestore", e);
       return null;
     }
   },
-  saveSubscribers(subscribers: Subscriber[]): void {
-    localStorage.setItem('rdcl_subscribers', JSON.stringify(subscribers));
+  async saveSubscribers(subscribers: Subscriber[]): Promise<void> {
+    try {
+      const docRef = doc(db, "rdcl", "subscribers_list");
+      await setDoc(docRef, { subscribers });
+    } catch (e) {
+      console.error("Firestore Save Subscribers Error:", e);
+    }
   },
-  loadSubscribers(): Subscriber[] {
-    const saved = localStorage.getItem('rdcl_subscribers');
-    return saved ? JSON.parse(saved) : [];
+  async loadSubscribers(): Promise<Subscriber[]> {
+    try {
+      const docRef = doc(db, "rdcl", "subscribers_list");
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data().subscribers || [];
+      }
+      return [];
+    } catch (e) {
+      console.error("Failed to load subscribers from Firestore", e);
+      return [];
+    }
   }
 };
 
@@ -1063,7 +1098,8 @@ const App: React.FC = () => {
       if (auth === 'true') setIsAuthenticated(true);
       const saved = await DataService.load();
       setTranslations(saved || { en: INITIAL_DATA });
-      setSubscribers(DataService.loadSubscribers());
+      const savedSubs = await DataService.loadSubscribers();
+      setSubscribers(savedSubs);
       setIsLoading(false);
     })();
   }, []);
