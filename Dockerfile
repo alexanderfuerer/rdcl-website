@@ -9,7 +9,8 @@ COPY package*.json ./
 
 # Install dependencies
 # Using --legacy-peer-deps because of the React 19 beta/RC versions in the project
-RUN npm install --legacy-peer-deps
+# Removing package-lock.json to ensure platform compatibility (Mac -> Linux)
+RUN rm -f package-lock.json && npm install --legacy-peer-deps
 
 # Copy the rest of the application code
 COPY . .
