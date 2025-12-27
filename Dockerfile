@@ -7,10 +7,11 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
+# Ensure dev dependencies (like Vite) are installed
+ENV NODE_ENV=development
+
 # Install dependencies
-# Using --legacy-peer-deps because of the React 19 beta/RC versions in the project
-# Removing package-lock.json to ensure platform compatibility (Mac -> Linux)
-RUN rm -f package-lock.json && npm install --legacy-peer-deps
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
