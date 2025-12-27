@@ -839,6 +839,42 @@ const AdminDashboard = ({ initialTranslations, subscribers, onSave, onClose, onD
                     </div>
                   ))}
                 </div>
+                <div className="space-y-6 pt-6 border-t border-white/5">
+                  <div className="flex justify-between items-center"><label className="text-[10px] uppercase text-white/40">Lecturing Activities</label><button className="text-xs text-secondary-orange font-bold" onClick={() => updateActiveData(d => ({ ...d, about: { ...d.about, lecturingItems: [...(d.about.lecturingItems || []), { year: "2024", role: "Role", institution: "Institution" }] } }))}>+ Add</button></div>
+                  {(data.about.lecturingItems || []).map((item, i) => (
+                    <div key={i} className="bg-white/5 p-4 rounded-xl flex gap-4 items-center group relative">
+                      <button className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-red-500/40" onClick={() => updateActiveData(d => ({ ...d, about: { ...d.about, lecturingItems: (d.about.lecturingItems || []).filter((_, idx) => idx !== i) } }))}><span className="material-symbols-outlined text-sm">delete</span></button>
+                      <div className="w-12 h-12 bg-white/10 rounded-lg overflow-hidden relative cursor-pointer group/logo flex-shrink-0">
+                        {item.logoUrl ? <img src={item.logoUrl} className="w-full h-full object-contain" /> : <div className="w-full h-full flex items-center justify-center"><span className="material-symbols-outlined text-white/20 text-sm">image</span></div>}
+                        <label className="absolute inset-0 bg-black/60 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center cursor-pointer transition-opacity">
+                          <input type="file" className="hidden" accept="image/*" onChange={e => handleFileUpload(e, 'lecturing-logo', i)} />
+                          <span className="material-symbols-outlined text-xs">upload</span>
+                        </label>
+                      </div>
+                      <input className="w-24 bg-transparent border-none p-0 text-sm outline-none text-white/40" value={item.year} onChange={e => updateActiveData(d => { const n = [...(d.about.lecturingItems || [])]; n[i].year = e.target.value; return { ...d, about: { ...d.about, lecturingItems: n } }; })} />
+                      <input className="flex-grow bg-transparent border-none p-0 text-sm outline-none font-bold" value={item.role} onChange={e => updateActiveData(d => { const n = [...(d.about.lecturingItems || [])]; n[i].role = e.target.value; return { ...d, about: { ...d.about, lecturingItems: n } }; })} />
+                      <input className="flex-grow bg-transparent border-none p-0 text-sm outline-none text-white/60" value={item.institution} onChange={e => updateActiveData(d => { const n = [...(d.about.lecturingItems || [])]; n[i].institution = e.target.value; return { ...d, about: { ...d.about, lecturingItems: n } }; })} />
+                    </div>
+                  ))}
+                </div>
+                <div className="space-y-6 pt-6 border-t border-white/5">
+                  <div className="flex justify-between items-center"><label className="text-[10px] uppercase text-white/40">Education History</label><button className="text-xs text-secondary-green font-bold" onClick={() => updateActiveData(d => ({ ...d, about: { ...d.about, educationItems: [...(d.about.educationItems || []), { year: "2024", degree: "Degree", institution: "Institution" }] } }))}>+ Add</button></div>
+                  {(data.about.educationItems || []).map((item, i) => (
+                    <div key={i} className="bg-white/5 p-4 rounded-xl flex gap-4 items-center group relative">
+                      <button className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-red-500/40" onClick={() => updateActiveData(d => ({ ...d, about: { ...d.about, educationItems: (d.about.educationItems || []).filter((_, idx) => idx !== i) } }))}><span className="material-symbols-outlined text-sm">delete</span></button>
+                      <div className="w-12 h-12 bg-white/10 rounded-lg overflow-hidden relative cursor-pointer group/logo flex-shrink-0">
+                        {item.logoUrl ? <img src={item.logoUrl} className="w-full h-full object-contain" /> : <div className="w-full h-full flex items-center justify-center"><span className="material-symbols-outlined text-white/20 text-sm">image</span></div>}
+                        <label className="absolute inset-0 bg-black/60 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center cursor-pointer transition-opacity">
+                          <input type="file" className="hidden" accept="image/*" onChange={e => handleFileUpload(e, 'edu-logo', i)} />
+                          <span className="material-symbols-outlined text-xs">upload</span>
+                        </label>
+                      </div>
+                      <input className="w-24 bg-transparent border-none p-0 text-sm outline-none text-white/40" value={item.year} onChange={e => updateActiveData(d => { const n = [...(d.about.educationItems || [])]; n[i].year = e.target.value; return { ...d, about: { ...d.about, educationItems: n } }; })} />
+                      <input className="flex-grow bg-transparent border-none p-0 text-sm outline-none font-bold" value={item.degree} onChange={e => updateActiveData(d => { const n = [...(d.about.educationItems || [])]; n[i].degree = e.target.value; return { ...d, about: { ...d.about, educationItems: n } }; })} />
+                      <input className="flex-grow bg-transparent border-none p-0 text-sm outline-none text-white/60" value={item.institution} onChange={e => updateActiveData(d => { const n = [...(d.about.educationItems || [])]; n[i].institution = e.target.value; return { ...d, about: { ...d.about, educationItems: n } }; })} />
+                    </div>
+                  ))}
+                </div>
               </section>
             )}
 
