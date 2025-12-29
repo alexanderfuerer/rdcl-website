@@ -34,16 +34,16 @@ export const INITIAL_DATA: WebsiteData = {
       title: 'The Centaur Model',
       mainTitle: 'Automation & Integration',
       description: 'We integrate AI deep into your core operational processes. We follow the "Centaur" approach: the human holds the reins and gives the strategic direction, while the AI takes over the burden of repetitive tasks. We build customized systems that do not replace, but strengthen.',
-      resultLabel: 'RESULTAT',
-      resultValue: '0% Admin. 100% Fokus.',
-      scopeTitle: 'Leistungsumfang',
+      resultLabel: 'RESULT',
+      resultValue: '0% Admin. 100% Focus.',
+      scopeTitle: 'Scope of Services',
       scopeItems: [
-        'Analyse bestehender Workflows auf Automatisierungspotenzial',
-        'Integration in bestehende Software (ERP, CRM, Slack)',
-        'Entwicklung eigener LLM-Wrapper für Datenschutz-Compliance',
-        'Intelligente Dokumentenverarbeitung & Datenextraktion'
+        'Analysis of existing workflows for automation potential',
+        'Integration into existing software (ERP, CRM, Slack)',
+        'Development of custom LLM wrappers for data privacy compliance',
+        'Intelligent document processing & data extraction'
       ],
-      ctaText: 'Mehr Details anfragen'
+      ctaText: 'Request More Details'
     },
     {
       id: '2',
@@ -51,16 +51,16 @@ export const INITIAL_DATA: WebsiteData = {
       title: 'Mindset Shift',
       mainTitle: 'Culture & Enablement',
       description: 'Technology is worthless without the people who operate it. Our workshops and keynotes are designed to reduce fears and awaken pragmatic curiosity. We transform your workforce\'s skepticism into productive drive and establish a culture of lifelong learning.',
-      resultLabel: 'RESULTAT',
-      resultValue: 'Ein Team, das KI fordert.',
-      scopeTitle: 'Leistungsumfang',
+      resultLabel: 'RESULT',
+      resultValue: 'A team that leverages AI.',
+      scopeTitle: 'Scope of Services',
       scopeItems: [
-        'Interaktive Workshops für Prompt Engineering',
-        'Identification von "AI Champions" im Unternehmen',
-        'C-Level Strategy Sessions zur KI-Roadmap',
-        'Entwicklung von internen KI-Guideline'
+        'Interactive workshops for Prompt Engineering',
+        'Identification of "AI Champions" within the company',
+        'C-Level Strategy Sessions on the AI Roadmap',
+        'Development of internal AI guidelines'
       ],
-      ctaText: 'Workshop buchen'
+      ctaText: 'Book Workshop'
     },
     {
       id: '3',
@@ -68,16 +68,16 @@ export const INITIAL_DATA: WebsiteData = {
       title: 'Authentic Reach',
       mainTitle: 'Growth & Communication',
       description: 'Marketing communication that scales through AI but resonates through human empathy. We train models to your specific "Brand Voice" so you can produce content that doesn\'t sound like a robot. More output, with the same or higher emotional quality.',
-      resultLabel: 'RESULTAT',
-      resultValue: 'Sichtbarkeit ohne Identitätsverlust.',
-      scopeTitle: 'Leistungsumfang',
+      resultLabel: 'RESULT',
+      resultValue: 'Visibility without loss of identity.',
+      scopeTitle: 'Scope of Services',
       scopeItems: [
-        'Fine-Tuning von Modellen auf Ihre Brand Voice',
-        'Skalierbare Personalisierung für Outreach',
-        'Automatisierte Content-Repurposing Workflows',
-        'SEO-Optimierung durch assistierte Content-Erstellung'
+        'Fine-tuning of models to your Brand Voice',
+        'Scalable personalization for outreach',
+        'Automated content repurposing workflows',
+        'SEO optimization through assisted content creation'
       ],
-      ctaText: 'Potentialanalyse starten'
+      ctaText: 'Start Potential Analysis'
     }
   ],
   projects: [
