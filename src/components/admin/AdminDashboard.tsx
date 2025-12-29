@@ -60,6 +60,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 finalData = await uploadToStorage(file, filename);
                 console.log('PDF Uploaded, URL:', finalData);
             } else if (file.type === 'application/pdf') {
+                // Determine if this is a generic PDF upload (not project-pdf)
+                // If we are here, it means target wasn't 'project-pdf'
                 finalData = await fileToBase64(file);
             } else {
                 finalData = await resizeImage(await fileToBase64(file), 800, 1000);
