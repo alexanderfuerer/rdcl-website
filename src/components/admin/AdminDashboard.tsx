@@ -24,7 +24,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     onClearSubscribers
 }) => {
     const [transMap, setTransMap] = useState(JSON.parse(JSON.stringify(initialTranslations)) as Record<string, WebsiteData>);
-    const [activeLang, setActiveLang] = useState<'en' | 'de'>('en');
+    // Hardcoded to 'en' for single language support
+    const activeLang = 'en';
     const [activeTab, setActiveTab] = useState('general');
     const [isSaving, setIsSaving] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
@@ -84,10 +85,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="fixed inset-0 z-[100] bg-[#0a0a0a] flex flex-col text-white font-sans">
             <div className="flex h-16 items-center justify-between px-8 border-b border-white/5 bg-black/40 backdrop-blur-xl">
                 <div className="flex items-center gap-6"><Logo className="h-6 filter invert grayscale" /><div className="h-8 w-px bg-white/10"></div>
-                    <div className="flex bg-white/10 rounded-lg p-1">
-                        <button onClick={() => setActiveLang('en')} className={`px-4 py-1 rounded text-xs font-bold ${activeLang === 'en' ? 'bg-white text-black' : 'text-white/40'}`}>EN</button>
-                        <button onClick={() => setActiveLang('de')} className={`px-4 py-1 rounded text-xs font-bold ${activeLang === 'de' ? 'bg-white text-black' : 'text-white/40'}`}>DE</button>
-                    </div>
+                    <span className="text-xs font-bold text-white/40 tracking-widest uppercase">Content Management</span>
                 </div>
                 <div className="flex items-center gap-4"><button onClick={onClose} className="text-white/60 text-sm hover:text-white">Cancel</button><button disabled={isSaving || isUploading} onClick={publish} className="h-10 px-6 rounded-full bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all disabled:opacity-50">{isSaving ? 'Publishing...' : 'Publish'}</button></div>
             </div>

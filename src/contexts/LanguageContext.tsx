@@ -1,55 +1,30 @@
-import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
+import React, { createContext, useContext, ReactNode, useMemo } from 'react';
 import { WebsiteData } from '../types';
 import { INITIAL_DATA } from '../constants';
 import { useData } from './DataContext';
-// @ts-ignore
-import deData from '../data/de.json';
 
 interface LanguageContextType {
-    currentLanguage: 'en' | 'de';
+    currentLanguage: 'en';
     isTranslating: boolean;
     currentData: WebsiteData;
-    setLanguage: (lang: 'en' | 'de') => void;
+    setLanguage: (lang: 'en') => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [currentLanguage, setCurrentLanguage] = useState<'en' | 'de'>('en');
-    const [isTranslating, setIsTranslating] = useState(false);
-    const { translations, saveTranslations } = useData();
+    // Hardcoded to 'en'
+    const currentLanguage = 'en';
+    const isTranslating = false;
+    const { translations } = useData();
 
     const currentData = useMemo(() => {
-        return translations[currentLanguage] || translations.en || INITIAL_DATA;
-    }, [currentLanguage, translations]);
+        return translations.en || INITIAL_DATA;
+    }, [translations]);
 
-    const translateToGerman = async (sourceData: WebsiteData) => {
-        if (translations.de || isTranslating) return;
-        try {
-            setIsTranslating(true);
-
-            // Simulate a short delay for better UX (optional)
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Use the imported JSON data
-            await saveTranslations({
-                ...translations,
-                de: deData as WebsiteData
-            });
-
-            setLanguage('de');
-        } catch (err) {
-            console.error("Translation Error:", err);
-        } finally {
-            setIsTranslating(false);
-        }
-    };
-
-    const setLanguage = (lang: 'en' | 'de') => {
-        setCurrentLanguage(lang);
-        if (lang === 'de') {
-            translateToGerman(translations.en || INITIAL_DATA);
-        }
+    const setLanguage = (lang: 'en') => {
+        // No-op for single language
+        console.log("Language set to", lang);
     };
 
     return (

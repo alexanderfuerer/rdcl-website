@@ -46,23 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         </nav>
 
                         <div className="flex items-center gap-3 md:gap-6">
-                            <div className="hidden sm:flex items-center bg-black/5 rounded-full p-1 h-10 px-2 relative">
-                                {isTranslating && (
-                                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-secondary-orange animate-pulse whitespace-nowrap">AI TRANSLATING...</div>
-                                )}
-                                <button
-                                    onClick={() => setLanguage('en')}
-                                    className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${currentLanguage === 'en' ? 'bg-white text-black shadow-sm' : 'text-[#6b6965] hover:text-black'}`}
-                                >
-                                    EN
-                                </button>
-                                <button
-                                    onClick={() => setLanguage('de')}
-                                    className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${currentLanguage === 'de' ? 'bg-white text-black shadow-sm' : 'text-[#6b6965] hover:text-black'}`}
-                                >
-                                    DE
-                                </button>
-                            </div>
+
 
                             {isAuthenticated && (
                                 <button
@@ -111,13 +95,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         ))}
                     </nav>
                     <div className="mt-auto space-y-8">
-                        <div className="flex items-center justify-between border-t border-black/5 pt-8">
-                            <span className="text-xs font-bold tracking-widest text-[#6b6965] uppercase">Language</span>
-                            <div className="flex bg-black/5 rounded-full p-1">
-                                <button onClick={() => setLanguage('en')} className={`px-6 py-2 rounded-full text-xs font-bold transition-all ${currentLanguage === 'en' ? 'bg-white text-black shadow-sm' : 'text-[#6b6965]'}`}>EN</button>
-                                <button onClick={() => setLanguage('de')} className={`px-6 py-2 rounded-full text-xs font-bold transition-all ${currentLanguage === 'de' ? 'bg-white text-black shadow-sm' : 'text-[#6b6965]'}`}>DE</button>
-                            </div>
-                        </div>
+                        {/* Language Toggle Removed */}
                         {isAuthenticated && (
                             <button onClick={() => { openAdmin(); setIsMenuOpen(false); }} className="w-full flex items-center justify-center gap-2 h-14 rounded-2xl border border-black/10 text-black font-medium hover:bg-black/5 transition-colors">
                                 <span className="material-symbols-outlined">settings</span> Backend
