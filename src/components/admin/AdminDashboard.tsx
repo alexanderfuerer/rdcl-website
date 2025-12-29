@@ -54,11 +54,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 return await getDownloadURL(storageRef);
             };
 
-            if (target === 'project-pdf' && index !== undefined) {
-                // Upload PDF to Firebase Storage
-                const filename = `projects/${Date.now()}_${file.name}`;
+            if ((target === 'project-pdf' || target === 'insight-pdf') && index !== undefined) {
+                // Upload PDF to Firebase Storage (for both Projects and Insights)
+                const folder = target === 'project-pdf' ? 'projects' : 'insights';
+                const filename = `${folder}/${Date.now()}_${file.name}`;
                 finalData = await uploadToStorage(file, filename);
-                console.log('PDF Uploaded, URL:', finalData);
+                console.log(`${target} Uploaded, URL:`, finalData);
             } else if (file.type === 'application/pdf') {
                 // Determine if this is a generic PDF upload (not project-pdf)
                 // If we are here, it means target wasn't 'project-pdf'
@@ -254,8 +255,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                                     </div>
                                                     <label className="h-[54px] px-4 bg-white/10 rounded-xl flex items-center justify-center cursor-pointer hover:bg-white/20 transition-all group/pdf border border-white/5 shrink-0" title="Upload PDF">
                                                         <input type="file" className="hidden" accept=".pdf" onChange={e => handleFileUpload(e, 'project-pdf', idx)} />
-                                                        <span className="material-symbols-outlined text-white/40 group-hover/pdf:text-white">upload_file</span>
+                                                        <span className={`material-symbols-outlined ${p.pdfUrl ? 'text-green-500' : 'text-white/40'} group-hover/pdf:text-white`}>{p.pdfUrl ? 'check_circle' : 'upload_file'}</span>
                                                     </label>
+                                                    {p.pdfUrl && <button onClick={() => updateActiveData(d => { const n = [...d.projects]; delete n[idx].pdfUrl; return { ...d, projects: n } })} className="h-[54px] px-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all"><span className="material-symbols-outlined">delete</span></button>}
                                                 </div>
                                             </div>
                                         </div>
@@ -281,8 +283,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                             </div>
                                             <label className="h-[54px] px-4 bg-white/10 rounded-xl flex items-center justify-center cursor-pointer hover:bg-white/20 transition-all group/pdf border border-white/5 shrink-0" title="Upload PDF">
                                                 <input type="file" className="hidden" accept=".pdf" onChange={e => handleFileUpload(e, 'insight-pdf', idx)} />
-                                                <span className="material-symbols-outlined text-white/40 group-hover/pdf:text-white">upload_file</span>
+                                                <span className={`material-symbols-outlined ${ins.downloadUrl?.startsWith('http') ? 'text-green-500' : 'text-white/40'} group-hover/pdf:text-white`}>{ins.downloadUrl?.startsWith('http') ? 'check_circle' : 'upload_file'}</span>
                                             </label>
+                                            {ins.downloadUrl && <button onClick={() => updateActiveData(d => { const n = [...d.insights]; n[idx].downloadUrl = ''; return { ...d, insights: n } })} className="h-[54px] px-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all"><span className="material-symbols-outlined">delete</span></button>}
                                         </div>
                                         <CMSField label="Brief Description" value={ins.description} onChange={v => updateActiveData(d => { const n = [...d.insights]; n[idx].description = v; return { ...d, insights: n }; })} />
                                     </div>
