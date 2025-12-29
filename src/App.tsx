@@ -38,7 +38,7 @@ const AppContent: React.FC = () => {
       case 'mission':
         return <MissionSection content={currentData.mission} />;
       case 'services':
-        return <ServiceSection services={currentData.services} />;
+        return <ServiceSection services={currentData.services} onContact={openContact} />;
       case 'projects':
         return <ProjectGrid projects={currentData.projects} heading={currentData.projectsHeading} intro={currentData.projectsIntro} />;
       case 'insights':
@@ -51,7 +51,7 @@ const AppContent: React.FC = () => {
           <>
             <Hero subtitle={currentData.mission.subheading} logoUrl={currentData.logoUrl} />
             <MissionSection content={currentData.mission} />
-            <ServiceSection services={currentData.services} />
+            <ServiceSection services={currentData.services} onContact={openContact} />
             <ProjectGrid projects={currentData.projects} heading={currentData.projectsHeading} intro={currentData.projectsIntro} />
             <InsightsSection insights={currentData.insights} />
             <PartnersSection partners={currentData.partners} />

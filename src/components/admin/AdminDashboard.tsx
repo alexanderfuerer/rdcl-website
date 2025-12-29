@@ -36,7 +36,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     };
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, target: string, index?: number) => {
-        const file = event.target.files?.[0]; if (!file) return;
+        const file = event.target.files?.[0];
+        if (!file) return;
 
         if (file.size > 2 * 1024 * 1024) {
             alert("File is too large. Maximum size is 2MB.");
@@ -111,9 +112,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 }
                 return next;
             });
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert("Upload failed. Make sure Firebase Storage is enabled in your console.");
+            alert(`Upload failed: ${err.message}`); // Show exact error
         } finally { setIsUploading(false); }
     };
 

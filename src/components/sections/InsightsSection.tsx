@@ -16,7 +16,7 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({ insights }) =>
                     <FormattedText text={i.description} />
                 </div>
                 {i.downloadUrl && (i.downloadUrl.startsWith('http') || i.downloadUrl.startsWith('https')) && (
-                    <a href={i.downloadUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-medium hover:underline">View <span className="material-symbols-outlined text-sm">open_in_new</span></a>
+                    <a href={i.downloadUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-medium hover:underline">Download PDF <span className="material-symbols-outlined text-sm">open_in_new</span></a>
                 )}
             </div>
             <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-white/20 group-hover:text-white/80 transition-colors"><span className="material-symbols-outlined text-4xl">description</span></div>

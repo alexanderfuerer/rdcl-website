@@ -5,9 +5,10 @@ import { ServiceCard } from '../ui/ServiceCard';
 
 interface ServiceSectionProps {
     services: Service[];
+    onContact: () => void;
 }
 
-export const ServiceSection: React.FC<ServiceSectionProps> = ({ services }) => (
+export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onContact }) => (
     <section className="py-32 bg-white">
         <div className="mx-auto max-w-[1200px] px-6">
             <div className="space-y-40">
@@ -50,8 +51,8 @@ export const ServiceSection: React.FC<ServiceSectionProps> = ({ services }) => (
                                         ))}
                                     </div>
                                 </div>
-                                <button className={`flex items-center gap-2 group text-black font-semibold hover:${colorClass} transition-all`}>
-                                    <span className="text-[15px] font-bold">{service.ctaText || 'Learn More'}</span>
+                                <button onClick={onContact} className={`flex items-center gap-2 group text-black font-semibold hover:${colorClass} transition-all`}>
+                                    <span className="text-[15px] font-bold">Jetzt kontaktieren</span>
                                     <span className={`material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform ${colorClass}`}>arrow_forward</span>
                                 </button>
                             </div>
