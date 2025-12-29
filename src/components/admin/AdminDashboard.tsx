@@ -58,6 +58,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 // Upload PDF to Firebase Storage
                 const filename = `projects/${Date.now()}_${file.name}`;
                 finalData = await uploadToStorage(file, filename);
+                console.log('PDF Uploaded, URL:', finalData);
             } else if (file.type === 'application/pdf') {
                 finalData = await fileToBase64(file);
             } else {
