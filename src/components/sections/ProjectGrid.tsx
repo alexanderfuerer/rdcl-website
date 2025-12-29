@@ -23,7 +23,7 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({ projects, heading, int
                 <div className="text-[#6b6965] text-sm leading-relaxed mb-4">
                     <FormattedText text={p.description} />
                 </div>
-                {p.pdfUrl && (
+                {p.pdfUrl && (p.pdfUrl.startsWith('http') || p.pdfUrl.startsWith('https')) && (
                     <a href={p.pdfUrl} onClick={() => console.log('Opening PDF:', p.pdfUrl)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-black hover:text-secondary-blue transition-colors z-10 relative">
                         <span className="material-symbols-outlined text-lg">description</span>
                         View Document
