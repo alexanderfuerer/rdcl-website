@@ -19,6 +19,7 @@ export interface Project {
   category: string;
   image: string;
   description: string;
+  pdfUrl?: string;
 }
 
 export interface Insight {

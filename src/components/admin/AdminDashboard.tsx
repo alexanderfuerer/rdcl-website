@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { INITIAL_DATA } from '../../constants';
 import { WebsiteData } from '../../types';
-import { DataService, Subscriber } from '../../lib/firebase';
+import { DataService, Subscriber, storage } from '../../lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Logo } from '../ui/Logo';
 import { CMSField } from './CMSField';
 import { fileToBase64, resizeImage } from '../../utils/image';
@@ -45,7 +46,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         try {
             setIsUploading(true);
             let finalData: string;
-            if (file.type === 'application/pdf') {
+
+            // Helper to upload to Firebase Storage
+            const uploadToStorage = async (file: File, path: string): Promise<string> => {
+                const storageRef = ref(storage, path);
+                await uploadBytes(storageRef, file);
+                return await getDownloadURL(storageRef);
+            };
+
+            if (target === 'project-pdf' && index !== undefined) {
+                // Upload PDF to Firebase Storage
+                const filename = `projects/${Date.now()}_${file.name}`;
+                finalData = await uploadToStorage(file, filename);
+            } else if (file.type === 'application/pdf') {
                 finalData = await fileToBase64(file);
             } else {
                 finalData = await resizeImage(await fileToBase64(file), 800, 1000);
@@ -57,6 +70,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 else if (target === 'about-ceo') next.about.imageUrl = finalData;
                 else if (target === 'service-image' && index !== undefined) next.services[index].imageUrl = finalData;
                 else if (target === 'project-image' && index !== undefined) next.projects[index].image = finalData;
+                else if (target === 'project-pdf' && index !== undefined) next.projects[index].pdfUrl = finalData;
                 else if (target === 'cv-logo' && index !== undefined) next.about.cvItems[index].logoUrl = finalData;
                 else if (target === 'edu-logo' && index !== undefined) {
                     if (!next.about.educationItems) next.about.educationItems = [];
@@ -71,7 +85,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 }
                 return next;
             });
-        } catch (err) { alert("Upload failed."); } finally { setIsUploading(false); }
+        } catch (err) {
+            console.error(err);
+            alert("Upload failed. Make sure Firebase Storage is enabled in your console.");
+        } finally { setIsUploading(false); }
     };
 
     const publish = async () => {
@@ -197,6 +214,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                             <div className="space-y-4">
                                                 <CMSField label="Project Title" value={p.title} onChange={v => updateActiveData(d => { const n = [...d.projects]; n[idx].title = v; return { ...d, projects: n }; })} />
                                                 <CMSField label="Category" value={p.category} onChange={v => updateActiveData(d => { const n = [...d.projects]; n[idx].category = v; return { ...d, projects: n }; })} />
+                                                <div className="flex gap-2 items-end">
+                                                    <div className="flex-grow">
+                                                        <CMSField label="PDF URL (Optional)" value={p.pdfUrl || ''} onChange={v => updateActiveData(d => { const n = [...d.projects]; n[idx].pdfUrl = v; return { ...d, projects: n }; })} />
+                                                    </div>
+                                                    <label className="h-[54px] px-4 bg-white/10 rounded-xl flex items-center justify-center cursor-pointer hover:bg-white/20 transition-all group/pdf border border-white/5 shrink-0" title="Upload PDF">
+                                                        <input type="file" className="hidden" accept=".pdf" onChange={e => handleFileUpload(e, 'project-pdf', idx)} />
+                                                        <span className="material-symbols-outlined text-white/40 group-hover/pdf:text-white">upload_file</span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                         <CMSField label="Description" value={p.description} onChange={v => updateActiveData(d => { const n = [...d.projects]; n[idx].description = v; return { ...d, projects: n }; })} textarea />
