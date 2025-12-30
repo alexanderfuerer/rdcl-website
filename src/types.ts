@@ -25,7 +25,7 @@ export interface Project {
 export interface Insight {
   id: string;
   title: string;
-  type: 'Checklist' | 'Report' | 'Whitepaper';
+  type: 'Checklist' | 'Report' | 'Artikel';
   description: string;
   downloadUrl: string;
 }
@@ -60,6 +60,8 @@ export interface WebsiteData {
   mission: MissionContent;
   services: Service[];
   projects: Project[];
+  insightsHeading: string;
+  insightsIntro: string;
   insights: Insight[];
   about: AboutContent;
   partners: Partner[];

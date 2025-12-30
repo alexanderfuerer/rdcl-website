@@ -304,13 +304,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
                         {activeTab === 'insights' && (
                             <section className="space-y-8">
-                                <div className="flex justify-between items-center"><h3 className="text-xl font-serif">Insights Library</h3><button onClick={() => updateActiveData(d => ({ ...d, insights: [...d.insights, { id: Date.now().toString(), title: 'New', type: 'Checklist', description: '', downloadUrl: '#' }] }))} className="text-xs text-secondary-orange font-bold">+ Add Insight</button></div>
+                                <CMSField label="Insights Heading" value={data.insightsHeading} onChange={v => updateActiveData(d => ({ ...d, insightsHeading: v }))} />
+                                <CMSField label="Insights Intro" value={data.insightsIntro} onChange={v => updateActiveData(d => ({ ...d, insightsIntro: v }))} textarea />
+                                <div className="flex justify-between items-center pt-8 border-t border-white/10"><h3 className="text-xl font-serif">Insights Library</h3><button onClick={() => updateActiveData(d => ({ ...d, insights: [...d.insights, { id: Date.now().toString(), title: 'New', type: 'Checklist', description: '', downloadUrl: '#' }] }))} className="text-xs text-secondary-orange font-bold">+ Add Insight</button></div>
                                 {data.insights.map((ins, idx) => (
                                     <div key={ins.id} className="bg-white/5 p-6 rounded-2xl space-y-4 group relative">
                                         <button className="absolute top-4 right-4 text-red-500/40 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => updateActiveData(d => ({ ...d, insights: d.insights.filter((_, i) => i !== idx) }))}><span className="material-symbols-outlined">delete</span></button>
                                         <div className="grid grid-cols-2 gap-4">
                                             <CMSField label="Title" value={ins.title} onChange={v => updateActiveData(d => { const n = [...d.insights]; n[idx].title = v; return { ...d, insights: n }; })} />
-                                            <div className="space-y-2"><label className="text-[10px] uppercase text-white/40">Type</label><select className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm outline-none" value={ins.type} onChange={e => updateActiveData(d => { const n = [...d.insights]; n[idx].type = e.target.value as any; return { ...d, insights: n }; })}><option value="Checklist">Checklist</option><option value="Report">Report</option><option value="Whitepaper">Whitepaper</option></select></div>
+                                            <div className="space-y-2"><label className="text-[10px] uppercase text-white/40">Type</label><select className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm outline-none" value={ins.type} onChange={e => updateActiveData(d => { const n = [...d.insights]; n[idx].type = e.target.value as any; return { ...d, insights: n }; })}><option value="Checklist">Checklist</option><option value="Report">Report</option><option value="Artikel">Artikel</option></select></div>
                                         </div>
                                         <div className="flex gap-4 items-end">
                                             <div className="flex-grow">

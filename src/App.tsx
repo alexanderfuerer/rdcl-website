@@ -48,7 +48,7 @@ const AppContent: React.FC = () => {
       case 'projects':
         return <ProjectGrid projects={currentData.projects} heading={currentData.projectsHeading} intro={currentData.projectsIntro} />;
       case 'insights':
-        return <InsightsSection insights={currentData.insights} />;
+        return <InsightsSection insights={currentData.insights} heading={currentData.insightsHeading} intro={currentData.insightsIntro} />;
       case 'about':
         return <AboutSection content={currentData.about} />;
       case 'home':
@@ -59,7 +59,7 @@ const AppContent: React.FC = () => {
             <MissionSection content={currentData.mission} />
             <ServiceSection services={currentData.services} onContact={openContact} />
             <ProjectGrid projects={currentData.projects} heading={currentData.projectsHeading} intro={currentData.projectsIntro} />
-            <InsightsSection insights={currentData.insights} />
+            <InsightsSection insights={currentData.insights} heading={currentData.insightsHeading} intro={currentData.insightsIntro} />
             <PartnersSection partners={currentData.partners} />
             <NewsletterSection onSubscribe={addSubscriber} />
           </>

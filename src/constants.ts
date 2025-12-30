@@ -103,6 +103,8 @@ export const INITIAL_DATA: WebsiteData = {
       description: 'Developed an AI-enhanced concierge service for high-net-worth individuals.'
     }
   ],
+  insightsHeading: 'Frameworks & Praxiswissen',
+  insightsIntro: 'Kuratierte Checklisten, relevante Reports und wegweisende Artikel zu globalen KI-Themen – ergänzt durch Ansichten führender KI-Vordenker. Alles mit Fokus auf Praxis, Klarheit und menschenzentrierte Umsetzung.',
   insights: [
     {
       id: 'i1',
