@@ -25,7 +25,15 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setIsLoading(true);
         try {
             const saved = await DataService.load();
-            setTranslations(saved || { en: INITIAL_DATA });
+            if (saved && saved['en']) {
+                // Merge with INITIAL_DATA to ensure new schema fields (like insightsHeading) are present
+                setTranslations({
+                    ...saved,
+                    en: { ...INITIAL_DATA, ...saved['en'] }
+                });
+            } else {
+                setTranslations(saved || { en: INITIAL_DATA });
+            }
             const savedSubs = await DataService.loadSubscribers();
             setSubscribers(savedSubs);
         } catch (error) {
