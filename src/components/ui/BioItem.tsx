@@ -12,16 +12,16 @@ export const BioItem: React.FC<BioItemProps> = ({ role, organization, year, logo
     return (
         <div className="flex items-center gap-6 border-b border-black/5 pb-4 group">
             {logoUrl && (
-                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all opacity-80 group-hover:opacity-100">
+                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
                     <img src={logoUrl} alt={organization} className="w-full h-full object-contain" />
                 </div>
             )}
             <div className="flex-grow flex justify-between items-center">
                 <div>
-                    <p className={`font-bold text-black ${colorClass} transition-colors`}>{role}</p>
-                    <p className="text-[#6b6965]">{organization}</p>
+                    <p className={`font-bold text-lg ${colorClass}`}>{organization}</p>
+                    <p className="text-[#6b6965] font-medium">{role}</p>
                 </div>
-                <span className={`font-mono text-sm font-bold opacity-50 ${colorClass.replace('group-hover:', '')}`}>
+                <span className={`font-mono text-sm font-bold opacity-30 text-black`}>
                     {year}
                 </span>
             </div>

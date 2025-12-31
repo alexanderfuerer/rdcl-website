@@ -47,7 +47,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => (
                                     organization={item.company}
                                     year={item.year}
                                     logoUrl={item.logoUrl}
-                                    colorClass="group-hover:text-secondary-blue"
+                                    colorClass="text-secondary-blue"
                                 />
                             ))}
                         </div>
@@ -64,7 +64,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => (
                                         organization={item.institution}
                                         year={item.year}
                                         logoUrl={item.logoUrl}
-                                        colorClass="group-hover:text-secondary-orange"
+                                        colorClass="text-secondary-orange"
                                     />
                                 ))}
                             </div>
@@ -82,7 +82,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => (
                                         organization={item.institution}
                                         year={item.year}
                                         logoUrl={item.logoUrl}
-                                        colorClass="group-hover:text-secondary-green"
+                                        colorClass="text-secondary-green"
                                     />
                                 ))}
                             </div>
