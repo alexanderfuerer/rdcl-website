@@ -18,7 +18,7 @@ export const BioItem: React.FC<BioItemProps> = ({ role, organization, year, logo
             )}
             <div className="flex-grow flex justify-between items-center">
                 <div>
-                    <p className={`font-bold text-lg ${colorClass}`}>{organization}</p>
+                    <p className="font-bold text-lg text-black">{organization}</p>
                     <p className="text-[#6b6965] font-medium">{role}</p>
                 </div>
                 <span className={`font-mono text-sm font-bold opacity-30 text-black`}>
