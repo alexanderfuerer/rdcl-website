@@ -11,10 +11,10 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ readinessUrl, onAdminTrigger, logoUrl, onNavigate }) => (
     <footer className="bg-[#f9f8f6] pt-12 pb-12 mt-0">
         <div className="mx-auto max-w-[1400px] px-6">
-            <div className="mb-24 flex flex-col md:flex-row items-center justify-between p-12 rounded-[3rem] bg-black border border-white/5 shadow-2xl shadow-black/10">
+            <div className="mb-24 flex flex-col md:flex-row items-center justify-between p-12 md:p-20 rounded-[3rem] bg-black border border-white/5 shadow-2xl shadow-black/10">
                 <div className="mb-8 md:mb-0 max-w-xl">
-                    <h3 className="font-serif text-4xl mb-4 text-white">Bewerte das KI-Potenzial deines Unternehmens.</h3>
-                    <p className="text-white/60">Finde heraus, wo KI für dich den grössten Wert schafft. Und wie dein Team sein volles Potenzial ausschöpfen kann.</p>
+                    <h3 className="font-serif text-4xl md:text-5xl mb-4 text-white">Bewerte das KI-Potenzial deines Unternehmens.</h3>
+                    <p className="text-lg text-white/60 font-light">Finde heraus, wo KI für dich den grössten Wert schafft. Und wie dein Team sein volles Potenzial ausschöpfen kann.</p>
                 </div>
                 <a href={readinessUrl} target="_blank" rel="noopener noreferrer" className="h-14 px-10 rounded-full bg-secondary-orange text-white font-medium text-lg hover:bg-white hover:text-black transition-all transform hover:-translate-y-1 shadow-xl shadow-secondary-orange/20 flex items-center gap-2">
                     AI Readiness Check <span className="material-symbols-outlined">trending_up</span>
