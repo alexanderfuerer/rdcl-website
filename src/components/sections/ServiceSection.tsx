@@ -20,7 +20,7 @@ export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onCont
 
                     return (
                         <div key={service.id} className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start group/service">
-                            <div className="w-full lg:w-[400px] flex-shrink-0">
+                            <div className="w-full lg:w-[400px] flex-shrink-0 hidden lg:block">
                                 <ServiceCard
                                     title={service.title}
                                     imageUrl={service.imageUrl}
@@ -36,6 +36,20 @@ export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onCont
                                 <div className="text-xl text-[#6b6965] font-light leading-relaxed mb-10 max-w-2xl">
                                     <FormattedText text={service.description} />
                                 </div>
+
+                                {/* Mobile-only Service Card Position */}
+                                <div className="block lg:hidden mb-10">
+                                    <ServiceCard
+                                        title={service.title}
+                                        imageUrl={service.imageUrl}
+                                        icon={service.icon}
+                                        resultLabel={service.resultLabel}
+                                        resultValue={service.resultValue}
+                                        colorClass={colorClass}
+                                        bgClass={cardBgClass}
+                                    />
+                                </div>
+
                                 <div className="bg-[#f9f8f6] p-10 rounded-[2.5rem] mb-10 border border-black/5">
                                     <div className="flex items-center gap-3 mb-8">
                                         <div className={`w-7 h-7 rounded-full flex items-center justify-center text-white ${bgClass}`}>
