@@ -34,7 +34,7 @@ export const INITIAL_DATA: WebsiteData = {
       title: 'The Centaur Model',
       mainTitle: 'Prozesse & Automatisierung',
       description: 'We integrate AI deep into your core operational processes. We follow the "Centaur" approach: the human holds the reins and gives the strategic direction, while the AI takes over the burden of repetitive tasks. We build customized systems that do not replace, but strengthen.',
-      resultLabel: 'RESULT',
+      resultLabel: 'ZIEL',
       resultValue: '0% Admin. 100% Focus.',
       scopeTitle: 'Scope of Services',
       scopeItems: [
@@ -51,7 +51,7 @@ export const INITIAL_DATA: WebsiteData = {
       title: 'Mindset Shift',
       mainTitle: 'Kultur & Kompetenz',
       description: 'Technology is worthless without the people who operate it. Our workshops and keynotes are designed to reduce fears and awaken pragmatic curiosity. We transform your workforce\'s skepticism into productive drive and establish a culture of lifelong learning.',
-      resultLabel: 'RESULT',
+      resultLabel: 'ZIEL',
       resultValue: 'A team that leverages AI.',
       scopeTitle: 'Scope of Services',
       scopeItems: [
@@ -68,7 +68,7 @@ export const INITIAL_DATA: WebsiteData = {
       title: 'Authentic Reach',
       mainTitle: 'Kommunikation & Skalierung',
       description: 'Marketing communication that scales through AI but resonates through human empathy. We train models to your specific "Brand Voice" so you can produce content that doesn\'t sound like a robot. More output, with the same or higher emotional quality.',
-      resultLabel: 'RESULT',
+      resultLabel: 'ZIEL',
       resultValue: 'Visibility without loss of identity.',
       scopeTitle: 'Scope of Services',
       scopeItems: [

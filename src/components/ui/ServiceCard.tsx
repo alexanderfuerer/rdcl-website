@@ -8,12 +8,13 @@ interface ServiceCardProps {
     resultLabel: string;
     resultValue: string;
     colorClass: string; // e.g., 'text-secondary-blue'
+    bgClass?: string; // Optional custom background class
 }
 
-export const ServiceCard: React.FC<ServiceCardProps> = ({ title, imageUrl, icon, resultLabel, resultValue, colorClass }) => {
+export const ServiceCard: React.FC<ServiceCardProps> = ({ title, imageUrl, icon, resultLabel, resultValue, colorClass, bgClass }) => {
     return (
-        <div className="aspect-[4/5] bg-[#f5f1ed] rounded-[2.5rem] relative flex flex-col items-center justify-center p-8 transition-transform duration-500 group-hover/service:scale-[1.02] shadow-sm">
-            <div className="bg-white p-5 rounded-[1.5rem] shadow-sm mb-6 border border-black/5 w-20 h-20 flex items-center justify-center">
+        <div className={`aspect-[4/5] ${bgClass || 'bg-[#f5f1ed]'} rounded-[2.5rem] relative flex flex-col items-center justify-start pt-20 p-8 transition-transform duration-500 group-hover/service:scale-[1.02] shadow-sm`}>
+            <div className="bg-white p-5 rounded-[1.5rem] shadow-sm mb-6 border border-black/5 w-20 h-20 flex items-center justify-center shrink-0">
                 {imageUrl ? (
                     <img src={imageUrl} className="w-full h-full object-contain" alt={title} />
                 ) : (

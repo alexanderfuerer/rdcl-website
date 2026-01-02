@@ -15,6 +15,8 @@ export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onCont
                 {services.map((service, index) => {
                     const colorClass = index % 3 === 0 ? 'text-secondary-blue' : index % 3 === 1 ? 'text-secondary-orange' : 'text-secondary-green';
                     const bgClass = index % 3 === 0 ? 'bg-secondary-blue' : index % 3 === 1 ? 'bg-secondary-orange' : 'bg-secondary-green';
+                    // Very light background tones for the cards
+                    const cardBgClass = index % 3 === 0 ? 'bg-[#f0f4ff]' : index % 3 === 1 ? 'bg-[#fff4ed]' : 'bg-[#eaf7f2]';
 
                     return (
                         <div key={service.id} className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start group/service">
@@ -26,6 +28,7 @@ export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onCont
                                     resultLabel={service.resultLabel}
                                     resultValue={service.resultValue}
                                     colorClass={colorClass}
+                                    bgClass={cardBgClass}
                                 />
                             </div>
                             <div className="w-full lg:flex-grow flex flex-col">

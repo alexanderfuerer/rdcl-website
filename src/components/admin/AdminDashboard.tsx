@@ -225,8 +225,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                         <button className="absolute top-4 right-4 text-red-500/40 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => updateActiveData(d => ({ ...d, services: d.services.filter((_, i) => i !== idx) }))}><span className="material-symbols-outlined">delete</span></button>
                                         <div className="grid grid-cols-2 gap-4">
                                             <CMSField label="Card Subtitle" value={s.title} onChange={v => updateActiveData(d => { const n = [...d.services]; n[idx].title = v; return { ...d, services: n }; })} />
-                                            <CMSField label="Main Title" value={s.mainTitle} onChange={v => updateActiveData(d => { const n = [...d.services]; n[idx].mainTitle = v; return { ...d, services: n }; })} />
+                                            <CMSField label="Icon Name (Material Symbols)" value={s.icon} onChange={v => updateActiveData(d => { const n = [...d.services]; n[idx].icon = v; return { ...d, services: n }; })} />
                                         </div>
+                                        <CMSField label="Main Title" value={s.mainTitle} onChange={v => updateActiveData(d => { const n = [...d.services]; n[idx].mainTitle = v; return { ...d, services: n }; })} />
                                         <CMSField label="Description" value={s.description} onChange={v => updateActiveData(d => { const n = [...d.services]; n[idx].description = v; return { ...d, services: n }; })} textarea />
                                         <div className="grid grid-cols-2 gap-4">
                                             <CMSField label="Result Label" value={s.resultLabel} onChange={v => updateActiveData(d => { const n = [...d.services]; n[idx].resultLabel = v; return { ...d, services: n }; })} />
