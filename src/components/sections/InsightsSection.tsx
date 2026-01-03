@@ -21,7 +21,13 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({ insights, head
                     <a href={i.downloadUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-medium hover:underline">Download PDF <span className="material-symbols-outlined text-sm">open_in_new</span></a>
                 )}
             </div>
-            <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-white/20 group-hover:text-white/80 transition-colors"><span className="material-symbols-outlined text-4xl">description</span></div>
+            <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-white/20 group-hover:text-white/80 transition-colors overflow-hidden">
+                {i.thumbnailUrl ? (
+                    <img src={i.thumbnailUrl} alt={i.title} className="w-full h-full object-cover" />
+                ) : (
+                    <span className="material-symbols-outlined text-4xl">description</span>
+                )}
+            </div>
         </div>
     ))}</div></div></section>
 );

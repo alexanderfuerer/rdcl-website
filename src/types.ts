@@ -28,6 +28,7 @@ export interface Insight {
   type: 'Checklist' | 'Report' | 'Artikel';
   description: string;
   downloadUrl: string;
+  thumbnailUrl?: string;
 }
 
 export interface MissionContent {

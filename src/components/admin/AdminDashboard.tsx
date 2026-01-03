@@ -110,6 +110,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     insights[index] = { ...insights[index], downloadUrl: finalData };
                     next.insights = insights;
                 }
+                else if (target === 'insight-thumbnail' && index !== undefined) {
+                    const insights = [...next.insights];
+                    insights[index] = { ...insights[index], thumbnailUrl: finalData };
+                    next.insights = insights;
+                }
                 return next;
             });
         } catch (err: any) {
@@ -326,8 +331,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                     <div key={ins.id} className="bg-white/5 p-6 rounded-2xl space-y-4 group relative">
                                         <button className="absolute top-4 right-4 text-red-500/40 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => updateActiveData(d => ({ ...d, insights: d.insights.filter((_, i) => i !== idx) }))}><span className="material-symbols-outlined">delete</span></button>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <CMSField label="Title" value={ins.title} onChange={v => updateActiveData(d => { const n = [...d.insights]; n[idx].title = v; return { ...d, insights: n }; })} />
-                                            <div className="space-y-2"><label className="text-[10px] uppercase text-white/40">Type</label><select className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm outline-none" value={ins.type} onChange={e => updateActiveData(d => { const n = [...d.insights]; n[idx].type = e.target.value as any; return { ...d, insights: n }; })}><option value="Checklist">Checklist</option><option value="Report">Report</option><option value="Artikel">Artikel</option></select></div>
+                                            <div className="space-y-2">
+                                                <label className="text-[10px] uppercase text-white/40">Thumbnail</label>
+                                                <div className="aspect-video bg-white/10 rounded-lg overflow-hidden relative cursor-pointer group/img">
+                                                    {ins.thumbnailUrl ? <img src={ins.thumbnailUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><span className="material-symbols-outlined text-white/20">image</span></div>}
+                                                    <label className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                                        <input type="file" className="hidden" accept="image/*" onChange={e => handleFileUpload(e, 'insight-thumbnail', idx)} />
+                                                        <span className="material-symbols-outlined">upload</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-4">
+                                                <CMSField label="Title" value={ins.title} onChange={v => updateActiveData(d => { const n = [...d.insights]; n[idx].title = v; return { ...d, insights: n }; })} />
+                                                <div className="space-y-2"><label className="text-[10px] uppercase text-white/40">Type</label><select className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm outline-none" value={ins.type} onChange={e => updateActiveData(d => { const n = [...d.insights]; n[idx].type = e.target.value as any; return { ...d, insights: n }; })}><option value="Checklist">Checklist</option><option value="Report">Report</option><option value="Artikel">Artikel</option></select></div>
+                                            </div>
                                         </div>
                                         <div className="flex gap-4 items-end">
                                             <div className="flex-grow">
