@@ -46,8 +46,11 @@ export const DataService = {
       const docRef = doc(db, "rdcl", "translations");
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        //@ts-ignore
-        return docSnap.data() as Record<string, WebsiteData>;
+        const data = docSnap.data();
+        // Validate that we have the expected structure
+        if (data && typeof data === 'object') {
+          return data as Record<string, WebsiteData>;
+        }
       }
       return null;
     } catch (e) {

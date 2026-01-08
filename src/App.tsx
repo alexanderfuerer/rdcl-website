@@ -2,6 +2,7 @@ import React, { useState, lazy, Suspense } from 'react';
 import { DataProvider, useData } from './contexts/DataContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 // UI Components (loaded immediately - needed for layout)
 import { Navbar } from './components/ui/Navbar';
@@ -134,13 +135,15 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <DataProvider>
-      <AuthProvider>
-        <LanguageProvider>
-          <AppContent />
-        </LanguageProvider>
-      </AuthProvider>
-    </DataProvider>
+    <ErrorBoundary>
+      <DataProvider>
+        <AuthProvider>
+          <LanguageProvider>
+            <AppContent />
+          </LanguageProvider>
+        </AuthProvider>
+      </DataProvider>
+    </ErrorBoundary>
   );
 };
 
