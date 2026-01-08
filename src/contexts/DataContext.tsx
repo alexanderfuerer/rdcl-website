@@ -17,12 +17,13 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [translations, setTranslations] = useState<Record<string, WebsiteData>>({});
+    // Start with INITIAL_DATA immediately - no loading state blocking the UI
+    const [translations, setTranslations] = useState<Record<string, WebsiteData>>({ en: INITIAL_DATA });
     const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    // Start with false - we show content immediately, load in background
+    const [isLoading, setIsLoading] = useState(false);
 
     const loadData = async () => {
-        setIsLoading(true);
         try {
             const saved = await DataService.load();
             if (saved && saved['en']) {
@@ -31,19 +32,20 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     ...saved,
                     en: { ...INITIAL_DATA, ...saved['en'] }
                 });
-            } else {
-                setTranslations(saved || { en: INITIAL_DATA });
+            } else if (saved) {
+                setTranslations(saved);
             }
+            // Load subscribers in background - no need to block
             const savedSubs = await DataService.loadSubscribers();
             setSubscribers(savedSubs);
         } catch (error) {
             console.error("Failed to load data:", error);
-        } finally {
-            setIsLoading(false);
+            // Keep using INITIAL_DATA on error - site still works
         }
     };
 
     useEffect(() => {
+        // Load Firestore data in background without blocking render
         loadData();
     }, []);
 
