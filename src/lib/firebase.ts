@@ -3,15 +3,24 @@ import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { WebsiteData } from "../types";
 
+// Firebase configuration from environment variables
+// Falls back to empty strings if not configured (will fail gracefully)
 const firebaseConfig = {
-  apiKey: "AIzaSyAHqAeFGhd7ehaB999vXW-OlVjYZS1ohGs",
-  authDomain: "boxwood-chalice-482510-i3.firebaseapp.com",
-  projectId: "boxwood-chalice-482510-i3",
-  storageBucket: "boxwood-chalice-482510-i3.firebasestorage.app",
-  messagingSenderId: "579494487652",
-  appId: "1:579494487652:web:d131c05f013cedb952a171",
-  measurementId: "G-1XMS7Z5EDJ"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || ""
 };
+
+// Warn in development if Firebase is not configured
+if (import.meta.env.DEV && !firebaseConfig.apiKey) {
+  console.warn(
+    "Firebase not configured. Copy .env.example to .env and fill in your Firebase credentials."
+  );
+}
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);

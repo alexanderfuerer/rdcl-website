@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { verifyPassword, getAdminPasswordHash } from '../../utils/auth';
 
 interface AdminAuthModalProps {
     onLogin: () => void;
@@ -8,13 +9,32 @@ interface AdminAuthModalProps {
 export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({ onLogin, onClose }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
+    const [isVerifying, setIsVerifying] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (password === 'rdcl2024') onLogin();
-        else {
+
+        const storedHash = getAdminPasswordHash();
+        if (!storedHash) {
             setError(true);
             setTimeout(() => setError(false), 1000);
+            return;
+        }
+
+        setIsVerifying(true);
+        try {
+            const isValid = await verifyPassword(password, storedHash);
+            if (isValid) {
+                onLogin();
+            } else {
+                setError(true);
+                setTimeout(() => setError(false), 1000);
+            }
+        } catch {
+            setError(true);
+            setTimeout(() => setError(false), 1000);
+        } finally {
+            setIsVerifying(false);
         }
     };
 
@@ -39,7 +59,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({ onLogin, onClose
                     />
                     <div className="flex gap-4">
                         <button type="button" onClick={onClose} className="flex-1 h-14 rounded-2xl text-sm font-medium text-[#6b6965] hover:bg-black/5 transition-colors">Cancel</button>
-                        <button type="submit" className="flex-1 h-14 bg-black text-white rounded-2xl text-sm font-medium hover:bg-secondary-blue transition-all">Authorize</button>
+                        <button type="submit" disabled={isVerifying} className="flex-1 h-14 bg-black text-white rounded-2xl text-sm font-medium hover:bg-secondary-blue transition-all disabled:opacity-50">{isVerifying ? 'Verifying...' : 'Authorize'}</button>
                     </div>
                 </form>
             </div>

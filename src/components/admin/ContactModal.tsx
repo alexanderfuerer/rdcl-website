@@ -4,6 +4,29 @@ interface ContactModalProps {
     onClose: () => void;
 }
 
+// Get contact email from environment variable with fallback
+const getContactEmail = (): string => {
+    const email = import.meta.env.VITE_CONTACT_EMAIL;
+    if (!email) {
+        console.warn('VITE_CONTACT_EMAIL not configured in .env');
+        return '';
+    }
+    return email;
+};
+
+// Basic email validation
+const isValidEmail = (email: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+// Basic input sanitization (removes potential XSS)
+const sanitizeInput = (input: string): string => {
+    return input
+        .replace(/[<>]/g, '')
+        .trim()
+        .slice(0, 1000); // Limit length
+};
+
 export const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -16,11 +39,47 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
         e.preventDefault();
         setIsSubmitting(true);
         setError(null);
+
+        // Client-side validation
+        const sanitizedName = sanitizeInput(name);
+        const sanitizedMessage = sanitizeInput(message);
+
+        if (!isValidEmail(email)) {
+            setError('Please enter a valid email address.');
+            setIsSubmitting(false);
+            return;
+        }
+
+        if (sanitizedName.length < 2) {
+            setError('Please enter your name.');
+            setIsSubmitting(false);
+            return;
+        }
+
+        if (sanitizedMessage.length < 10) {
+            setError('Please enter a longer message (at least 10 characters).');
+            setIsSubmitting(false);
+            return;
+        }
+
+        const contactEmail = getContactEmail();
+        if (!contactEmail) {
+            setError('Contact form not configured. Please try again later.');
+            setIsSubmitting(false);
+            return;
+        }
+
         try {
-            const response = await fetch("https://formsubmit.co/ajax/alex@rdcl.ai", {
+            const response = await fetch(`https://formsubmit.co/ajax/${contactEmail}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                body: JSON.stringify({ name, email, message, _subject: "New Inquiry from RDCL Website", _captcha: "false" })
+                body: JSON.stringify({
+                    name: sanitizedName,
+                    email,
+                    message: sanitizedMessage,
+                    _subject: "New Inquiry from RDCL Website",
+                    _captcha: "false"
+                })
             });
             const result = await response.json();
             if (response.ok && (result.success === "true" || result.success === true)) setIsSuccess(true);

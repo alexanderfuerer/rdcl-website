@@ -18,6 +18,8 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@': path.resolve(__dirname, '.'),
       }
-    }
+    },
+    // Expose VITE_ prefixed env variables to the client
+    envPrefix: 'VITE_'
   };
 });
