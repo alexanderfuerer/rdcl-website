@@ -43,7 +43,8 @@ const AppContent: React.FC = () => {
   const { currentData, currentLanguage, setLanguage, isTranslating } = useLanguage();
   const { subscribers, saveTranslations, deleteSubscriber, clearSubscribers, isLoading, addSubscriber, translations } = useData();
 
-  if (isLoading) return <div className="min-h-screen bg-[#f9f8f6] flex items-center justify-center font-serif text-xl">Loading...</div>;
+  // No longer blocking on isLoading - content renders immediately with INITIAL_DATA
+  // Firestore data loads in background and updates seamlessly
 
   const renderContent = () => {
     switch (currentView) {

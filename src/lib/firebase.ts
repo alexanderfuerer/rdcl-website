@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, enableIndexedDbPersistence } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { WebsiteData } from "../types";
 
@@ -25,6 +25,18 @@ if (import.meta.env.DEV && !firebaseConfig.apiKey) {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+// Enable offline persistence for faster subsequent loads
+// Data is cached in IndexedDB and served immediately on repeat visits
+enableIndexedDbPersistence(db).catch((err) => {
+  if (err.code === 'failed-precondition') {
+    // Multiple tabs open - persistence only works in one tab
+    console.warn('Firestore persistence unavailable: multiple tabs open');
+  } else if (err.code === 'unimplemented') {
+    // Browser doesn't support persistence
+    console.warn('Firestore persistence not supported in this browser');
+  }
+});
 
 export interface Subscriber {
   email: string;
