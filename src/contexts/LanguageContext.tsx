@@ -1,31 +1,84 @@
-import React, { createContext, useContext, ReactNode, useMemo } from 'react';
+import React, { createContext, useContext, ReactNode, useMemo, useState, useEffect } from 'react';
 import { WebsiteData } from '../types';
-import { INITIAL_DATA } from '../constants';
+import { INITIAL_DATA, INITIAL_DATA_DE } from '../constants';
 import { useData } from './DataContext';
 
+export type Language = 'de' | 'en';
+
 interface LanguageContextType {
-    currentLanguage: 'en';
+    currentLanguage: Language;
     isTranslating: boolean;
     currentData: WebsiteData;
-    setLanguage: (lang: 'en') => void;
+    setLanguage: (lang: Language) => void;
 }
+
+const STORAGE_KEY = 'rdcl-language';
+
+// Detect browser language, default to German
+const getInitialLanguage = (): Language => {
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+        return 'de';
+    }
+    try {
+        // Check localStorage first
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored === 'de' || stored === 'en') {
+            return stored;
+        }
+    } catch {
+        // localStorage might not be available
+    }
+    // Default to German (primary audience)
+    return 'de';
+};
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    // Hardcoded to 'en'
-    const currentLanguage = 'en';
-    const isTranslating = false;
+    const [currentLanguage, setCurrentLanguage] = useState<Language>(getInitialLanguage);
+    const [isTranslating, setIsTranslating] = useState(false);
     const { translations } = useData();
 
-    const currentData = useMemo(() => {
-        return translations.en || INITIAL_DATA;
-    }, [translations]);
-
-    const setLanguage = (lang: 'en') => {
-        // No-op for single language
-        console.log("Language set to", lang);
+    // Get the appropriate fallback data based on language
+    const getFallbackData = (lang: Language): WebsiteData => {
+        return lang === 'de' ? INITIAL_DATA_DE : INITIAL_DATA;
     };
+
+    const currentData = useMemo(() => {
+        const fallback = getFallbackData(currentLanguage);
+        const saved = translations[currentLanguage];
+
+        if (saved) {
+            // Merge with fallback to ensure all fields exist
+            return { ...fallback, ...saved };
+        }
+        return fallback;
+    }, [translations, currentLanguage]);
+
+    const setLanguage = (lang: Language) => {
+        if (lang === currentLanguage) return;
+
+        setIsTranslating(true);
+        setCurrentLanguage(lang);
+        try {
+            localStorage.setItem(STORAGE_KEY, lang);
+        } catch {
+            // localStorage might not be available
+        }
+
+        // Brief transition effect
+        setTimeout(() => setIsTranslating(false), 150);
+    };
+
+    // Persist language preference
+    useEffect(() => {
+        try {
+            localStorage.setItem(STORAGE_KEY, currentLanguage);
+        } catch {
+            // localStorage might not be available
+        }
+    }, [currentLanguage]);
 
     return (
         <LanguageContext.Provider value={{

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { WebsiteData } from '../types';
-import { INITIAL_DATA } from '../constants';
+import { INITIAL_DATA, INITIAL_DATA_DE } from '../constants';
 import { DataService, Subscriber } from '../lib/firebase';
 
 interface DataContextType {
@@ -17,8 +17,8 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    // Start with INITIAL_DATA immediately - no loading state blocking the UI
-    const [translations, setTranslations] = useState<Record<string, WebsiteData>>({ en: INITIAL_DATA });
+    // Start with INITIAL_DATA_DE immediately - no loading state blocking the UI
+    const [translations, setTranslations] = useState<Record<string, WebsiteData>>({ de: INITIAL_DATA_DE });
     const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
     // Start with false - we show content immediately, load in background
     const [isLoading, setIsLoading] = useState(false);
@@ -26,21 +26,23 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const loadData = async () => {
         try {
             const saved = await DataService.load();
-            if (saved && saved['en']) {
-                // Merge with INITIAL_DATA to ensure new schema fields (like insightsHeading) are present
-                setTranslations({
-                    ...saved,
-                    en: { ...INITIAL_DATA, ...saved['en'] }
-                });
-            } else if (saved) {
-                setTranslations(saved);
+            if (saved) {
+                // Merge with fallback data to ensure all schema fields are present
+                const merged: Record<string, WebsiteData> = { ...saved };
+                if (saved['de']) {
+                    merged['de'] = { ...INITIAL_DATA_DE, ...saved['de'] };
+                }
+                if (saved['en']) {
+                    merged['en'] = { ...INITIAL_DATA, ...saved['en'] };
+                }
+                setTranslations(merged);
             }
             // Load subscribers in background - no need to block
             const savedSubs = await DataService.loadSubscribers();
             setSubscribers(savedSubs);
         } catch (error) {
             console.error("Failed to load data:", error);
-            // Keep using INITIAL_DATA on error - site still works
+            // Keep using INITIAL_DATA_DE on error - site still works
         }
     };
 
