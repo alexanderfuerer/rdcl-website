@@ -15,6 +15,14 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || ""
 };
 
+// Debug: Log Firebase config (without sensitive data)
+console.log("Firebase Config Check:", {
+  hasApiKey: !!firebaseConfig.apiKey,
+  apiKeyLength: firebaseConfig.apiKey?.length || 0,
+  projectId: firebaseConfig.projectId,
+  authDomain: firebaseConfig.authDomain
+});
+
 // Warn in development if Firebase is not configured
 if (import.meta.env.DEV && !firebaseConfig.apiKey) {
   console.warn(
