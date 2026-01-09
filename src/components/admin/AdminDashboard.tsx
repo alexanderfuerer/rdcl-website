@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { INITIAL_DATA } from '../../constants';
+import { INITIAL_DATA, INITIAL_DATA_DE } from '../../constants';
 import { WebsiteData } from '../../types';
 import { DataService, Subscriber, storage } from '../../lib/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Logo } from '../ui/Logo';
 import { CMSField } from './CMSField';
 import { fileToBase64, resizeImage } from '../../utils/image';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface AdminDashboardProps {
     initialTranslations: Record<string, WebsiteData>;
@@ -25,14 +26,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     onClearSubscribers
 }) => {
     const [transMap, setTransMap] = useState(JSON.parse(JSON.stringify(initialTranslations)) as Record<string, WebsiteData>);
-    // Hardcoded to 'en' for single language support
-    const activeLang = 'en';
+    const { currentLanguage } = useLanguage();
+    // Use current language for editing
+    const activeLang = currentLanguage;
     const [activeTab, setActiveTab] = useState('general');
     const [isSaving, setIsSaving] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
 
+    const getFallback = () => activeLang === 'de' ? INITIAL_DATA_DE : INITIAL_DATA;
+
     const updateActiveData = (updater: (data: WebsiteData) => WebsiteData) => {
-        setTransMap(prev => ({ ...prev, [activeLang]: updater(prev[activeLang] || INITIAL_DATA) }));
+        setTransMap(prev => ({ ...prev, [activeLang]: updater(prev[activeLang] || getFallback()) }));
     };
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, target: string, index?: number) => {
@@ -137,7 +141,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         } finally { setIsSaving(false); }
     };
 
-    const data = transMap[activeLang] || INITIAL_DATA;
+    const data = transMap[activeLang] || getFallback();
 
     return (
         <div className="fixed inset-0 z-[100] bg-[#0a0a0a] flex flex-col text-white font-sans">
