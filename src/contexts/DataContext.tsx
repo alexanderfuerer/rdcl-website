@@ -27,15 +27,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             const saved = await DataService.load();
             if (saved) {
-                // Merge with fallback data to ensure all schema fields are present
-                const merged: Record<string, WebsiteData> = { ...saved };
-                if (saved['de']) {
-                    merged['de'] = { ...INITIAL_DATA_DE, ...saved['de'] };
-                }
-                if (saved['en']) {
-                    merged['en'] = { ...INITIAL_DATA, ...saved['en'] };
-                }
-                setTranslations(merged);
+                // Use Firestore data directly - no merging with fallback
+                setTranslations(saved);
             }
             // Load subscribers in background - no need to block
             const savedSubs = await DataService.loadSubscribers();

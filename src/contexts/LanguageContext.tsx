@@ -46,14 +46,12 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     };
 
     const currentData = useMemo(() => {
-        const fallback = getFallbackData(currentLanguage);
         const saved = translations[currentLanguage];
-
+        // Use saved data directly if it exists, otherwise fallback
         if (saved) {
-            // Merge with fallback to ensure all fields exist
-            return { ...fallback, ...saved };
+            return saved;
         }
-        return fallback;
+        return getFallbackData(currentLanguage);
     }, [translations, currentLanguage]);
 
     const setLanguage = (lang: Language) => {
