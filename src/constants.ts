@@ -276,7 +276,7 @@ export const INITIAL_DATA: WebsiteData = {
   about: {
     ceoName: 'Alexander Fürer',
     ceoTitle: 'Founder',
-    bio: 'Alex is a design thinking pioneer and AI visionary. He believes that the true power of technology is not to replace humans, but to amplify our most unique qualities: empathy, creativity, and leadership.',
+    bio: 'Alex is a thinking pioneer and AI visionary. He believes that the true power of technology is not to replace humans, but to amplify our most unique qualities: empathy, creativity, and leadership.',
     beliefs: [
       'Technology must serve the human experience.',
       'Radical simplicity is the highest form of sophistication.',
