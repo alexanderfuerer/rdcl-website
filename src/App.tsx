@@ -81,7 +81,10 @@ const AppContent: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#f9f8f6] text-[#191716] font-sans selection:bg-secondary-orange selection:text-white">
       <Navbar
-        onNavigate={setCurrentView}
+        onNavigate={(view) => {
+          setCurrentView(view);
+          window.scrollTo(0, 0);
+        }}
         currentView={currentView}
       />
 
