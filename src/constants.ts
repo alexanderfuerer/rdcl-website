@@ -123,8 +123,8 @@ export const INITIAL_DATA_DE: WebsiteData = {
     }
   ],
   about: {
-    ceoName: 'Michael Lewrick',
-    ceoTitle: 'Gründer & CEO',
+    ceoName: 'Alexander Fürer',
+    ceoTitle: 'Gründer',
     bio: 'Michael ist ein Design Thinking Pionier und KI-Visionär. Er glaubt, dass die wahre Kraft der Technologie nicht darin liegt, Menschen zu ersetzen, sondern unsere einzigartigsten Qualitäten zu verstärken: Empathie, Kreativität und Führung.',
     beliefs: [
       'Technologie muss dem menschlichen Erlebnis dienen.',
@@ -274,8 +274,8 @@ export const INITIAL_DATA: WebsiteData = {
     }
   ],
   about: {
-    ceoName: 'Michael Lewrick',
-    ceoTitle: 'Founder & CEO',
+    ceoName: 'Alexaner Fürer',
+    ceoTitle: 'Founder',
     bio: 'Michael is a design thinking pioneer and AI visionary. He believes that the true power of technology is not to replace humans, but to amplify our most unique qualities: empathy, creativity, and leadership.',
     beliefs: [
       'Technology must serve the human experience.',
@@ -298,7 +298,7 @@ export const INITIAL_DATA: WebsiteData = {
     imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600'
   },
   partners: [
-    { name: 'ORACLE', url: 'https://oracle.com' },
+    { name: 'TEST', url: 'https://apple.com' },
     { name: 'SPOTIFY', url: 'https://spotify.com' },
     { name: 'NOTION', url: 'https://notion.so' },
     { name: 'SCALE', url: 'https://scale.com' },
