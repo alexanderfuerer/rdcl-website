@@ -2,13 +2,18 @@ import React from 'react';
 import { FormattedText } from '../ui/FormattedText';
 import { Service } from '../../types';
 import { ServiceCard } from '../ui/ServiceCard';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ServiceSectionProps {
     services: Service[];
     onContact: () => void;
 }
 
-export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onContact }) => (
+export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onContact }) => {
+    const { currentLanguage } = useLanguage();
+    const isDE = currentLanguage === 'de';
+
+    return (
     <section className="py-32 bg-white">
         <div className="mx-auto max-w-[1200px] px-6">
             <div className="space-y-40">
@@ -69,7 +74,7 @@ export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onCont
                                     </div>
                                 </div>
                                 <button onClick={onContact} className={`flex items-center gap-2 group text-black font-semibold hover:${colorClass} transition-all`}>
-                                    <span className="text-[15px] font-bold">Jetzt kontaktieren</span>
+                                    <span className="text-[15px] font-bold">{isDE ? 'Jetzt kontaktieren' : 'Contact now'}</span>
                                     <span className={`material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform ${colorClass}`}>arrow_forward</span>
                                 </button>
                             </div>
@@ -79,4 +84,5 @@ export const ServiceSection: React.FC<ServiceSectionProps> = ({ services, onCont
             </div>
         </div>
     </section>
-);
+    );
+};

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ContactModalProps {
     onClose: () => void;
@@ -34,6 +35,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const { currentLanguage } = useLanguage();
+    const isDE = currentLanguage === 'de';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -93,9 +96,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
         <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 backdrop-blur-md animate-in fade-in duration-300">
             <div className="w-full max-w-lg bg-white rounded-[3rem] p-16 shadow-2xl border border-black/5 text-center animate-in zoom-in-95">
                 <div className="w-20 h-20 bg-secondary-green/10 rounded-full flex items-center justify-center mx-auto mb-8"><span className="material-symbols-outlined text-4xl text-secondary-green">check_circle</span></div>
-                <h2 className="font-serif text-4xl mb-4">Message Sent</h2>
-                <p className="text-[#6b6965] mb-10 leading-relaxed">Thank you, <span className="font-bold text-black">{name}</span>. We will get back to you shortly at <span className="font-bold text-black">{email}</span>.</p>
-                <button onClick={onClose} className="h-14 px-10 bg-black text-white rounded-2xl font-medium hover:bg-secondary-blue transition-all">Close</button>
+                <h2 className="font-serif text-4xl mb-4">{isDE ? 'Nachricht gesendet' : 'Message Sent'}</h2>
+                <p className="text-[#6b6965] mb-10 leading-relaxed">{isDE ? 'Vielen Dank' : 'Thank you'}, <span className="font-bold text-black">{name}</span>. {isDE ? 'Wir melden uns in Kürze bei' : 'We will get back to you shortly at'} <span className="font-bold text-black">{email}</span>.</p>
+                <button onClick={onClose} className="h-14 px-10 bg-black text-white rounded-2xl font-medium hover:bg-secondary-blue transition-all">{isDE ? 'Schliessen' : 'Close'}</button>
             </div>
         </div>
     );
@@ -104,15 +107,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose }) => {
         <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 backdrop-blur-md animate-in fade-in duration-300">
             <div className="w-full max-w-xl bg-white rounded-[3rem] p-12 md:p-16 shadow-2xl border border-black/5 animate-in zoom-in-95">
                 <div className="flex justify-between items-start mb-10">
-                    <div><h2 className="font-serif text-5xl mb-3">Let's Connect</h2><p className="text-[#6b6965]">Wie kann ich dich in der KI-Transformation deines Unternehmens unterstützen?</p></div>
+                    <div><h2 className="font-serif text-5xl mb-3">Let's Connect</h2><p className="text-[#6b6965]">{isDE ? 'Wie kann ich dich in der KI-Transformation deines Unternehmens unterstützen?' : 'How can I support you in your company\'s AI transformation?'}</p></div>
                     <button onClick={onClose} className="w-12 h-12 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition-colors"><span className="material-symbols-outlined">close</span></button>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {error && <div className="p-4 bg-red-50 text-red-600 text-sm rounded-2xl border border-red-100 flex items-start gap-3"><span className="material-symbols-outlined text-lg">error</span><p>{error}</p></div>}
                     <div className="space-y-2"><label className="text-[10px] font-bold uppercase tracking-widest text-[#6b6965]">Name</label><input required type="text" placeholder="" className="w-full h-14 bg-[#f9f8f6] border-none rounded-2xl px-6 focus:ring-2 focus:ring-secondary-orange transition-all outline-none text-lg" value={name} onChange={(e) => setName(e.target.value)} /></div>
-                    <div className="space-y-2"><label className="text-[10px] font-bold uppercase tracking-widest text-[#6b6965]">E-Mail-Adresse</label><input required type="email" placeholder="" className="w-full h-14 bg-[#f9f8f6] border-none rounded-2xl px-6 focus:ring-2 focus:ring-secondary-orange transition-all outline-none text-lg" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                    <div className="space-y-2"><label className="text-[10px] font-bold uppercase tracking-widest text-[#6b6965]">Deine Nachricht</label><textarea required rows={4} placeholder="" className="w-full bg-[#f9f8f6] border-none rounded-2xl p-6 focus:ring-2 focus:ring-secondary-orange transition-all outline-none text-lg resize-none" value={message} onChange={(e) => setMessage(e.target.value)} /></div>
-                    <button type="submit" disabled={isSubmitting} className="w-full h-16 bg-black text-white rounded-2xl text-lg font-medium hover:bg-secondary-orange transition-all flex items-center justify-center gap-3 disabled:opacity-50">{isSubmitting ? <span className="animate-pulse">Senden...</span> : <><>Jetzt senden</><span className="material-symbols-outlined">send</span></>}</button>
+                    <div className="space-y-2"><label className="text-[10px] font-bold uppercase tracking-widest text-[#6b6965]">{isDE ? 'E-Mail-Adresse' : 'Email Address'}</label><input required type="email" placeholder="" className="w-full h-14 bg-[#f9f8f6] border-none rounded-2xl px-6 focus:ring-2 focus:ring-secondary-orange transition-all outline-none text-lg" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
+                    <div className="space-y-2"><label className="text-[10px] font-bold uppercase tracking-widest text-[#6b6965]">{isDE ? 'Deine Nachricht' : 'Your Message'}</label><textarea required rows={4} placeholder="" className="w-full bg-[#f9f8f6] border-none rounded-2xl p-6 focus:ring-2 focus:ring-secondary-orange transition-all outline-none text-lg resize-none" value={message} onChange={(e) => setMessage(e.target.value)} /></div>
+                    <button type="submit" disabled={isSubmitting} className="w-full h-16 bg-black text-white rounded-2xl text-lg font-medium hover:bg-secondary-orange transition-all flex items-center justify-center gap-3 disabled:opacity-50">{isSubmitting ? <span className="animate-pulse">Senden...</span> : <>{isDE ? 'Jetzt senden' : 'Send now'}<span className="material-symbols-outlined">send</span></>}</button>
                 </form>
             </div>
         </div>

@@ -41,21 +41,22 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       // Default fallback UI
+      const isDE = typeof window !== 'undefined' && localStorage.getItem('rdcl-language') !== 'en';
       return (
         <div className="min-h-[400px] flex items-center justify-center bg-[#f9f8f6]">
           <div className="text-center p-8 max-w-md">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="material-symbols-outlined text-3xl text-red-500">error</span>
             </div>
-            <h2 className="font-serif text-2xl mb-3">Etwas ist schiefgelaufen</h2>
+            <h2 className="font-serif text-2xl mb-3">{isDE ? 'Etwas ist schiefgelaufen' : 'Something went wrong'}</h2>
             <p className="text-[#6b6965] mb-6">
-              Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.
+              {isDE ? 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.' : 'An unexpected error occurred. Please try again.'}
             </p>
             <button
               onClick={this.handleRetry}
               className="px-6 py-3 bg-black text-white rounded-xl hover:bg-secondary-blue transition-colors"
             >
-              Erneut versuchen
+              {isDE ? 'Erneut versuchen' : 'Try again'}
             </button>
             {import.meta.env.DEV && this.state.error && (
               <details className="mt-6 text-left">

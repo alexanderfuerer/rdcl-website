@@ -2,12 +2,17 @@ import React from 'react';
 import { FormattedText } from '../ui/FormattedText';
 import { AboutContent } from '../../types';
 import { BioItem } from '../ui/BioItem';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface AboutSectionProps {
     content: AboutContent;
 }
 
-export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => (
+export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => {
+    const { currentLanguage } = useLanguage();
+    const isDE = currentLanguage === 'de';
+
+    return (
     <section className="py-32">
         <div className="mx-auto max-w-[1400px] px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
@@ -26,25 +31,25 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => (
                     </div>
 
                     <div className="space-y-8">
-                        <h3 className="font-serif text-3xl">Grundsätze</h3>
+                        <h3 className="font-serif text-3xl">{isDE ? 'Grundsätze' : 'Principles'}</h3>
                         <ul className="space-y-4">
                             <li className="flex items-center gap-4 text-lg group">
                                 <div className="w-2 h-2 rounded-full transition-all bg-secondary-orange group-hover:scale-150"></div>
-                                KI soll Menschen befähigen, nicht ersetzen.
+                                {isDE ? 'KI soll Menschen befähigen, nicht ersetzen.' : 'AI should empower people, not replace them.'}
                             </li>
                             <li className="flex items-center gap-4 text-lg group">
                                 <div className="w-2 h-2 rounded-full transition-all bg-secondary-orange group-hover:scale-150"></div>
-                                KI und Automatisierung sollen Zeit für kreative, strategischere Arbeit freispielen.
+                                {isDE ? 'KI und Automatisierung sollen Zeit für kreative, strategischere Arbeit freispielen.' : 'AI and automation should free up time for creative, strategic work.'}
                             </li>
                             <li className="flex items-center gap-4 text-lg group">
                                 <div className="w-2 h-2 rounded-full transition-all bg-secondary-orange group-hover:scale-150"></div>
-                                Radikale Einfachheit ist die höchste Form von Eleganz.
+                                {isDE ? 'Radikale Einfachheit ist die höchste Form von Eleganz.' : 'Radical simplicity is the highest form of elegance.'}
                             </li>
                         </ul>
                     </div>
 
                     <div className="mt-20">
-                        <h3 className="font-serif text-3xl mb-8 text-secondary-blue">Berufliche Stationen</h3>
+                        <h3 className="font-serif text-3xl mb-8 text-secondary-blue">{isDE ? 'Berufliche Stationen' : 'Career Milestones'}</h3>
                         <div className="space-y-6">
                             {content.cvItems?.map((item, i) => (
                                 <BioItem
@@ -61,7 +66,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => (
 
                     {content.lecturingItems && content.lecturingItems.length > 0 && (
                         <div className="mt-20">
-                            <h3 className="font-serif text-3xl mb-8 text-secondary-orange">Dozententätigkeit</h3>
+                            <h3 className="font-serif text-3xl mb-8 text-secondary-orange">{isDE ? 'Dozententätigkeit' : 'Lecturing Activities'}</h3>
                             <div className="space-y-6">
                                 {content.lecturingItems.map((item, i) => (
                                     <BioItem
@@ -79,7 +84,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => (
 
                     {content.educationItems && content.educationItems.length > 0 && (
                         <div className="mt-20">
-                            <h3 className="font-serif text-3xl mb-8 text-secondary-green">Aus- und Weiterbildung</h3>
+                            <h3 className="font-serif text-3xl mb-8 text-secondary-green">{isDE ? 'Aus- und Weiterbildung' : 'Education'}</h3>
                             <div className="space-y-6">
                                 {content.educationItems.map((item, i) => (
                                     <BioItem
@@ -104,4 +109,5 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ content }) => (
             </div>
         </div>
     </section>
-);
+    );
+};
