@@ -1,11 +1,15 @@
 import React from 'react';
 import { Partner } from '../../types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface PartnersSectionProps {
     partners: Partner[];
 }
 
 export const PartnersSection: React.FC<PartnersSectionProps> = ({ partners }) => {
+    const { currentLanguage } = useLanguage();
+    const isDE = currentLanguage === 'de';
+
     if (!partners || partners.length === 0) return null;
 
     return (
@@ -13,7 +17,7 @@ export const PartnersSection: React.FC<PartnersSectionProps> = ({ partners }) =>
             <div className="mx-auto max-w-[1200px] px-6">
                 <div className="flex flex-col items-center">
                     <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-black/40 mb-12">
-                        Selected Strategic Ecosystem Partners
+                        {isDE ? 'Strategische Partner' : 'Strategic Partners'}
                     </p>
                     <div className="w-full flex flex-wrap justify-center items-center gap-x-16 gap-y-12">
                         {partners.map((partner, index) => (
