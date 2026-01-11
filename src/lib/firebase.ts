@@ -42,31 +42,57 @@ export interface Subscriber {
 }
 
 export const DataService = {
-  async save(translations: Record<string, WebsiteData>): Promise<void> {
+  // Save translations for a specific language
+  async saveLanguage(lang: string, data: WebsiteData): Promise<void> {
     try {
-      const docRef = doc(db, "rdcl", "translations");
-      // Add timeout to prevent hanging
+      const docRef = doc(db, "rdcl", `translations_${lang}`);
       const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Save timeout - check your connection")), 15000)
       );
-      await Promise.race([setDoc(docRef, translations), timeoutPromise]);
+      await Promise.race([setDoc(docRef, data), timeoutPromise]);
     } catch (e: any) {
-      console.error("Firestore Save Error:", e);
+      console.error(`Firestore Save Error (${lang}):`, e);
       throw new Error(e.message || "Failed to save to database. Check your internet or permissions.");
     }
   },
-  async load(): Promise<Record<string, WebsiteData> | null> {
+
+  // Save all translations (saves each language separately)
+  async save(translations: Record<string, WebsiteData>): Promise<void> {
+    const savePromises = Object.entries(translations).map(([lang, data]) =>
+      this.saveLanguage(lang, data)
+    );
+    await Promise.all(savePromises);
+  },
+
+  // Load translations for a specific language
+  async loadLanguage(lang: string): Promise<WebsiteData | null> {
     try {
-      const docRef = doc(db, "rdcl", "translations");
+      const docRef = doc(db, "rdcl", `translations_${lang}`);
       const docSnap = await getDocFromServer(docRef);
       if (docSnap.exists()) {
-        const data = docSnap.data();
-        // Validate that we have the expected structure
-        if (data && typeof data === 'object') {
-          return data as Record<string, WebsiteData>;
-        }
+        return docSnap.data() as WebsiteData;
       }
       return null;
+    } catch (e) {
+      console.error(`Failed to load ${lang} from Firestore`, e);
+      return null;
+    }
+  },
+
+  // Load all translations (loads each language separately)
+  async load(): Promise<Record<string, WebsiteData> | null> {
+    try {
+      const languages = ['de', 'en'];
+      const results: Record<string, WebsiteData> = {};
+
+      for (const lang of languages) {
+        const data = await this.loadLanguage(lang);
+        if (data) {
+          results[lang] = data;
+        }
+      }
+
+      return Object.keys(results).length > 0 ? results : null;
     } catch (e) {
       console.error("Failed to load data from Firestore", e);
       return null;
